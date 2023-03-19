@@ -1,0 +1,100 @@
+### Java ###
+*.class
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+### Java JetBrains ###
+/target/**
+/.idea
+*.iml
+*.ipr
+*.iws
+
+### Workspace ###
+/.metadata*
+/workspace/
+/.prefs
+/.project
+
+### Maven ###
+/log*
+/target/
+**/target/
+*.log
+*.ctxt
+*.tokens
+release.properties
+dependency-reduced-pom.xml
+pom.xml.asc
+
+### Gradle ###
+.gradle
+build/
+!src/main/webapp/bower_components.build/**
+!src/main/webapp/node_modules.build/**
+
+### Eclipse ###
+/bin/
+/tmp/
+.backup/
+.metadata/
+.recommenders/
+.server*
+
+### STS ###
+/.sts*
+.RELEASE_MANAGEMENT
+
+### IntelliJ ###
+/out/
+.idea/**
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/nb-configuration.xml
+
+### macOS ###
+.DS_Store
+Thumbs.db
+.idea/**/shelf
+.idea/**/workspace.xml
+.idea/*/*.iml
+
+### Node ###
+/node_modules/
+npm-debug.log
+
+### Server Logs ###
+log/
+/logs/
+*.log
+*Log
+*.lck
+
+### Directory-Based ###
+.settings
+kindlegen
+!.mvn/wrapper/maven-wrapper.jar
+
+### File-Based ###
+*.war
+*.zip
+*.tar.gz
+*.jar
+!README.*
+!LICENSE.*
+!NOTICE.*
+
+
+application.properties
