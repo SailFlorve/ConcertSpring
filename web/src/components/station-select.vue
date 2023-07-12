@@ -1,10 +1,10 @@
 <template>
-  <a-select v-model:value="name" show-search allowClear
-            :filterOption="filterNameOption"
-            @change="onChange" placeholder="请选择车站"
-            :style="'width: ' + localWidth">
-    <a-select-option v-for="item in stations" :key="item.name" :value="item.name"
-                     :label="item.name + item.namePinyin + item.namePy">
+  <a-select v-model:value="name" :filterOption="filterNameOption" :style="'width: ' + localWidth"
+            allowClear
+            placeholder="请选择车站" show-search
+            @change="onChange">
+    <a-select-option v-for="item in stations" :key="item.name" :label="item.name + item.namePinyin + item.namePy"
+                     :value="item.name">
       {{ item.name }} {{ item.namePinyin }} ~ {{ item.namePy }}
     </a-select-option>
   </a-select>

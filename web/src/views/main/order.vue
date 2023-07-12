@@ -15,11 +15,11 @@
   <a-checkbox-group v-model:value="passengerChecks" :options="passengerOptions"/>
 
   <div class="order-tickets">
-    <a-row class="order-tickets-header" v-if="tickets.length > 0">
+    <a-row v-if="tickets.length > 0" class="order-tickets-header">
       <a-col :span="2">观众</a-col>
       <a-col :span="6">身份证</a-col>
     </a-row>
-    <a-row class="order-tickets-row" v-for="ticket in tickets" :key="ticket.passengerId">
+    <a-row v-for="ticket in tickets" :key="ticket.passengerId" class="order-tickets-row">
       <a-col :span="2">{{ ticket.passengerName }}</a-col>
       <a-col :span="6">{{ ticket.passengerIdCard }}</a-col>
       <!--      <a-col :span="4">-->
@@ -39,19 +39,19 @@
     </a-row>
   </div>
   <div v-if="tickets.length > 0">
-    <a-button type="primary" size="large" @click="finishCheckPassenger">提交订单</a-button>
+    <a-button size="large" type="primary" @click="finishCheckPassenger">提交订单</a-button>
   </div>
 
-  <a-modal v-model:visible="visible" title="请核对以下信息"
-           style="top: 50px; width: 800px"
-           ok-text="确认" cancel-text="取消"
+  <a-modal v-model:visible="visible" cancel-text="取消"
+           ok-text="确认"
+           style="top: 50px; width: 800px" title="请核对以下信息"
            @ok="showFirstImageCodeModal">
     <div class="order-tickets">
-      <a-row class="order-tickets-header" v-if="tickets.length > 0">
+      <a-row v-if="tickets.length > 0" class="order-tickets-header">
         <a-col :span="3">观众</a-col>
         <a-col :span="15">身份证</a-col>
       </a-row>
-      <a-row class="order-tickets-row" v-for="ticket in tickets" :key="ticket.passengerId">
+      <a-row v-for="ticket in tickets" :key="ticket.passengerId" class="order-tickets-row">
         <a-col :span="3">{{ ticket.passengerName }}</a-col>
         <a-col :span="15">{{ ticket.passengerIdCard }}</a-col>
         <!--        <a-col :span="3">-->
@@ -96,7 +96,7 @@
   </a-modal>
 
   <!-- 第二层验证码 后端 -->
-  <a-modal v-model:visible="imageCodeModalVisible" :title="null" :footer="null" :closable="false"
+  <a-modal v-model:visible="imageCodeModalVisible" :closable="false" :footer="null" :title="null"
            style="top: 50px; width: 400px">
     <p style="text-align: center; font-weight: bold; font-size: 18px">
       使用服务端验证码削弱瞬时高峰<br/>
@@ -109,11 +109,11 @@
         </template>
       </a-input>
     </p>
-    <a-button type="danger" block @click="handleOk">输入验证码后开始购票</a-button>
+    <a-button block type="danger" @click="handleOk">输入验证码后开始购票</a-button>
   </a-modal>
 
   <!-- 第一层验证码 纯前端 -->
-  <a-modal v-model:visible="firstImageCodeModalVisible" :title="null" :footer="null" :closable="false"
+  <a-modal v-model:visible="firstImageCodeModalVisible" :closable="false" :footer="null" :title="null"
            style="top: 50px; width: 400px">
     <p style="text-align: center; font-weight: bold; font-size: 18px">
       使用纯前端验证码削弱瞬时高峰<br/>
@@ -126,11 +126,11 @@
         </template>
       </a-input>
     </p>
-    <a-button type="danger" block @click="validFirstImageCode">提交验证码</a-button>
+    <a-button block type="danger" @click="validFirstImageCode">提交验证码</a-button>
   </a-modal>
 
-  <a-modal v-model:visible="lineModalVisible" title="排队购票" :footer="null" :maskClosable="false" :closable="false"
-           style="top: 50px; width: 400px">
+  <a-modal v-model:visible="lineModalVisible" :closable="false" :footer="null" :maskClosable="false" style="top: 50px; width: 400px"
+           title="排队购票">
     <div class="book-line">
       <div v-show="confirmOrderLineCount < 0">
         <loading-outlined/>

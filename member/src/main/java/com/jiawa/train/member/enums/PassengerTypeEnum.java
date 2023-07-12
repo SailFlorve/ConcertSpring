@@ -20,6 +20,17 @@ public enum PassengerTypeEnum {
         this.desc = desc;
     }
 
+    public static List<HashMap<String, String>> getEnumList() {
+        List<HashMap<String, String>> list = new ArrayList<>();
+        for (PassengerTypeEnum anEnum : EnumSet.allOf(PassengerTypeEnum.class)) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("code", anEnum.code);
+            map.put("desc", anEnum.desc);
+            list.add(map);
+        }
+        return list;
+    }
+
     public String getCode() {
         return code;
     }
@@ -28,22 +39,11 @@ public enum PassengerTypeEnum {
         this.code = code;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public String getDesc() {
         return desc;
     }
 
-    public static List<HashMap<String,String>> getEnumList() {
-        List<HashMap<String, String>> list = new ArrayList<>();
-        for (PassengerTypeEnum anEnum : EnumSet.allOf(PassengerTypeEnum.class)) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("code",anEnum.code);
-            map.put("desc",anEnum.desc);
-            list.add(map);
-        }
-        return list;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

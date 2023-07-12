@@ -7,7 +7,7 @@
   </div>
   <div v-else>
     <p style="font-weight: bold;">
-      日期：{{param.date}}，车次：{{param.trainCode}}，出发站：{{param.start}}，到达站：{{param.end}}
+      日期：{{ param.date }}，车次：{{ param.trainCode }}，出发站：{{ param.start }}，到达站：{{ param.end }}
     </p>
 
     <table>
@@ -32,24 +32,25 @@
                   top:-15px;
                   text-align: center;
                   background: white;">
-        {{carriage}}
+        {{ carriage }}
       </div>
       <table>
         <tr>
           <td v-for="(sell, index) in Object.values(seatObj)[0]" :key="index"
               style="text-align: center">
-            {{index + 1}}
+            {{ index + 1 }}
           </td>
         </tr>
         <tr v-for="(sellList, col) in seatObj" :key="col">
           <td v-for="(sell, index) in sellList" :key="index"
+              :style="{background: (sell > 0 ? '#FF9900' : '#999999')}"
               style="text-align: center;
                       border: 2px solid white;
                       background: grey;
                       padding: 0 4px;
                       color: white;
-                      "
-              :style="{background: (sell > 0 ? '#FF9900' : '#999999')}">{{col}}</td>
+                      ">{{ col }}
+          </td>
         </tr>
       </table>
     </div>

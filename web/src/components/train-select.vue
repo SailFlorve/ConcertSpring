@@ -1,10 +1,11 @@
 <template>
-  <a-select v-model:value="trainCode" show-search allowClear
-            :filterOption="filterTrainCodeOption"
-            @change="onChange" placeholder="请选择车次"
-            :style="'width: ' + localWidth">
-    <a-select-option v-for="item in trains" :key="item.code" :value="item.code" :label="item.code + item.start + item.end">
-      {{item.code}} {{item.start}} ~ {{item.end}}
+  <a-select v-model:value="trainCode" :filterOption="filterTrainCodeOption" :style="'width: ' + localWidth"
+            allowClear
+            placeholder="请选择车次" show-search
+            @change="onChange">
+    <a-select-option v-for="item in trains" :key="item.code" :label="item.code + item.start + item.end"
+                     :value="item.code">
+      {{ item.code }} {{ item.start }} ~ {{ item.end }}
     </a-select-option>
   </a-select>
 </template>
@@ -28,7 +29,7 @@ export default defineComponent({
     }
 
     // 利用watch，动态获取父组件的值，如果放在onMounted或其它方法里，则只有第一次有效
-    watch(() => props.modelValue, ()=>{
+    watch(() => props.modelValue, () => {
       console.log("props.modelValue", props.modelValue);
       trainCode.value = props.modelValue;
     }, {immediate: true});

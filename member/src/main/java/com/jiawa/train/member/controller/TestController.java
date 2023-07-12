@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class TestController {
 
-    @Value("${test.nacos}")
-    private String testNacos;
-
     @Autowired
     Environment environment;
+    @Value("${test.nacos}")
+    private String testNacos;
 
     @GetMapping("/hello")
     public String hello() {

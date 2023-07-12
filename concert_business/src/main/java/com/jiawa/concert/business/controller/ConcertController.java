@@ -1,8 +1,8 @@
 package com.jiawa.concert.business.controller;
 
-import com.jiawa.train.common.resp.CommonResp;
 import com.jiawa.concert.business.bean.Concert;
 import com.jiawa.concert.business.service.ConcertService;
+import com.jiawa.train.common.resp.CommonResp;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -12,7 +12,8 @@ create table `concert`
     `create_time`  datetime(3) comment '新增时间',
     `update_time`  datetime(3) comment '修改时间',
     primary key (`id`)
-) engine=innodb default charset=utf8mb4 comment='演唱会';
+) engine = innodb
+  default charset = utf8mb4 comment ='演唱会';
 
 drop table if exists `order`;
 drop table if exists `concert_order`;
@@ -27,7 +28,8 @@ create table `concert_order`
     `create_time`  datetime(3) comment '新增时间',
     `update_time`  datetime(3) comment '修改时间',
     primary key (`id`),
-    index          `member_id_index` (`member_id`),
-    index          `concert_id_index` (`concert_id`),
-    index          `ticket_id_index` (`ticket_id`)
-) engine=innodb default charset=utf8mb4 comment='订单';
+    index `member_id_index` (`member_id`),
+    index `concert_id_index` (`concert_id`),
+    index `ticket_id_index` (`ticket_id`)
+) engine = innodb
+  default charset = utf8mb4 comment ='订单';

@@ -21,13 +21,12 @@
 
 <script>
 
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: "admin-view",
   setup() {
-    return {
-    };
+    return {};
   },
 });
 </script>

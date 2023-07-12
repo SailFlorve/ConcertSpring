@@ -29,7 +29,7 @@ public class MemberTicketReq {
     /**
      * 日期
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @NotNull(message = "【日期】不能为空")
     private Date trainDate;
 
@@ -66,7 +66,7 @@ public class MemberTicketReq {
     /**
      * 出发时间
      */
-    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
     @NotNull(message = "【出发时间】不能为空")
     private Date startTime;
 
@@ -79,7 +79,7 @@ public class MemberTicketReq {
     /**
      * 到站时间
      */
-    @JsonFormat(pattern = "HH:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern = "HH:mm:ss", timezone = "GMT+8")
     @NotNull(message = "【到站时间】不能为空")
     private Date endTime;
 

@@ -69,16 +69,16 @@ public class TicketQueryResp {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getConcertName() {
         return concertName;
     }
 
     public void setConcertName(String concertName) {
         this.concertName = concertName;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Long getMemberId() {

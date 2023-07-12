@@ -5,11 +5,11 @@
 
     </a-space>
   </p>
-  <a-table :dataSource="tickets"
-           :columns="columns"
+  <a-table :columns="columns"
+           :dataSource="tickets"
+           :loading="loading"
            :pagination="pagination"
-           @change="handleTableChange"
-           :loading="loading">
+           @change="handleTableChange">
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
 
@@ -17,14 +17,14 @@
       <template v-else-if="column.dataIndex === 'col'">
         <span v-for="item in SEAT_COL_ARRAY" :key="item.code">
           <span v-if="item.code === record.col && item.type === record.seatType">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
       <template v-else-if="column.dataIndex === 'seatType'">
         <span v-for="item in SEAT_TYPE_ARRAY" :key="item.code">
           <span v-if="item.code === record.seatType">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 
@@ -63,32 +63,32 @@ export default defineComponent({
     });
     let loading = ref(false);
     const columns = [
-    {
-      title: '观众姓名',
-      dataIndex: 'audienceName',
-      key: 'audienceName',
-    },
-    {
-      title: '出票时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
-    },
-    {
-      title: '演唱会名称',
-      dataIndex: 'concertName',
-      key: 'concertName',
-    },
-    {
-      title: '座位号',
-      dataIndex: 'seatNumber',
-      key: 'seatNumber',
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation',
-      key: 'operation',
-      slots: { customRender: 'operation' },
-    },
+      {
+        title: '观众姓名',
+        dataIndex: 'audienceName',
+        key: 'audienceName',
+      },
+      {
+        title: '出票时间',
+        dataIndex: 'createTime',
+        key: 'createTime',
+      },
+      {
+        title: '演唱会名称',
+        dataIndex: 'concertName',
+        key: 'concertName',
+      },
+      {
+        title: '座位号',
+        dataIndex: 'seatNumber',
+        key: 'seatNumber',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation',
+        key: 'operation',
+        slots: {customRender: 'operation'},
+      },
     ];
 
 

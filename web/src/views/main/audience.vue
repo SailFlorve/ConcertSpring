@@ -5,18 +5,18 @@
       <a-button type="primary" @click="onAdd">新增</a-button>
     </a-space>
   </p>
-  <a-table :dataSource="passengers"
-           :columns="columns"
+  <a-table :columns="columns"
+           :dataSource="passengers"
+           :loading="loading"
            :pagination="pagination"
-           @change="handleTableChange"
-           :loading="loading">
+           @change="handleTableChange">
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
         <a-space>
           <a-popconfirm
-              title="删除后不可恢复，确认删除?"
-              @confirm="onDelete(record)"
-              ok-text="确认" cancel-text="取消">
+              cancel-text="取消"
+              ok-text="确认"
+              title="删除后不可恢复，确认删除?" @confirm="onDelete(record)">
             <a style="color: red">删除</a>
           </a-popconfirm>
           <a @click="onEdit(record)">编辑</a>
@@ -25,20 +25,20 @@
       <template v-else-if="column.dataIndex === 'type'">
         <span v-for="item in PASSENGER_TYPE_ARRAY" :key="item.code">
           <span v-if="item.code === record.type">
-            {{item.desc}}
+            {{ item.desc }}
           </span>
         </span>
       </template>
     </template>
   </a-table>
-  <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk"
-           ok-text="确认" cancel-text="取消">
-    <a-form :model="audience" :label-col="{span: 4}" :wrapper-col="{ span: 20 }">
+  <a-modal v-model:visible="visible" cancel-text="取消" ok-text="确认"
+           title="乘车人" @ok="handleOk">
+    <a-form :label-col="{span: 4}" :model="audience" :wrapper-col="{ span: 20 }">
       <a-form-item label="姓名">
-        <a-input v-model:value="audience.name" />
+        <a-input v-model:value="audience.name"/>
       </a-form-item>
       <a-form-item label="身份证">
-        <a-input v-model:value="audience.idCard" />
+        <a-input v-model:value="audience.idCard"/>
       </a-form-item>
 
     </a-form>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import {defineComponent, onMounted, ref} from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 
@@ -73,20 +73,20 @@ export default defineComponent({
     });
     let loading = ref(false);
     const columns = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: '身份证',
-      dataIndex: 'idCard',
-      key: 'idCard',
-    },
-    {
-      title: '操作',
-      dataIndex: 'operation'
-    }
+      {
+        title: '姓名',
+        dataIndex: 'name',
+        key: 'name',
+      },
+      {
+        title: '身份证',
+        dataIndex: 'idCard',
+        key: 'idCard',
+      },
+      {
+        title: '操作',
+        dataIndex: 'operation'
+      }
     ];
 
     const onAdd = () => {

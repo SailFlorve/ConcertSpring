@@ -66,16 +66,16 @@ public class ConcertTicket {
         return concertId;
     }
 
+    public void setConcertId(Long concertId) {
+        this.concertId = concertId;
+    }
+
     public String getConcertName() {
         return concertName;
     }
 
     public void setConcertName(String concertName) {
         this.concertName = concertName;
-    }
-
-    public void setConcertId(Long concertId) {
-        this.concertId = concertId;
     }
 
     public String getSeatNumber() {

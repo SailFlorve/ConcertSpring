@@ -38,7 +38,7 @@ public class BusinessApplication {
         // LOG.info("已定义限流规则");
     }
 
-    private static void initFlowRules(){
+    private static void initFlowRules() {
         List<FlowRule> rules = new ArrayList<>();
         FlowRule rule = new FlowRule();
         rule.setResource("doConfirm");

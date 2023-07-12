@@ -18,7 +18,8 @@ public enum ConfirmOrderStatusEnum {
         this.desc = desc;
     }
 
-    @Override    public String toString() {
+    @Override
+    public String toString() {
         return "ConfirmOrderStatusEnum{" +
                 "code='" + code + '\'' +
                 ", desc='" + desc + '\'' +
@@ -33,12 +34,12 @@ public enum ConfirmOrderStatusEnum {
         this.code = code;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
     public String getDesc() {
         return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
 }

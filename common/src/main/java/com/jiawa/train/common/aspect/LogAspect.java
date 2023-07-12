@@ -22,11 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 @Aspect
 @Component
 public class LogAspect {
+    private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
+
     public LogAspect() {
         System.out.println("Common LogAspect");
     }
-
-    private final static Logger LOG = LoggerFactory.getLogger(LogAspect.class);
 
     /**
      * 定义一个切点
