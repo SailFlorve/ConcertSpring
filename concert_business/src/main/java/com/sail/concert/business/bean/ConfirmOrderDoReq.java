@@ -1,7 +1,7 @@
 package com.sail.concert.business.bean;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -11,10 +11,10 @@ public class ConfirmOrderDoReq {
 
     private Long concertId;
 
-    @NotEmpty(message = "【购票列表】不能为空")
+    @NotNull(message = "【购票列表】不能为空")
     private List<ConcertTicket> ticketList;
 
-    @NotEmpty(message = "【剩余门票】不能为空")
+    @NotNull(message = "【剩余门票】不能为空")
     private int ticketLeft;
 
     @NotBlank(message = "【图片验证码】不能为空")

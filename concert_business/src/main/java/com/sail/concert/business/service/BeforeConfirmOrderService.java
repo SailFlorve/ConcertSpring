@@ -24,12 +24,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class BeforeConfirmOrderService {
@@ -53,18 +56,63 @@ public class BeforeConfirmOrderService {
     @Resource
     public RocketMQTemplate rocketMQTemplate;
 
+    public int getTicketLeftFromRedis(long concertId) {
+        String key = "concert-id-" + concertId;
+        String value = redisTemplate.opsForValue().get(key);
+        return value == null ? 0 : Integer.parseInt(value);
+    }
+
+    @Scheduled(fixedRate = 1000)
+    public void addTokens() {
+        // 获取所有演唱会的ID列表
+        List<Long> concertIds = concertMapper.selectList(null)
+                .stream()
+                .map(Concert::getId)
+                .toList();
+
+        // 向每个演唱会的令牌桶中添加令牌
+        for (Long concertId : concertIds) {
+            String key = "token-bucket-" + concertId;
+            int tokenCount = redisTemplate.opsForValue().get(key) == null ? 0 : Integer.parseInt(redisTemplate.opsForValue().get(key));
+            int maxTokens = 500; // 桶的容量
+
+            // 如果令牌数量小于桶的容量，则添加一个令牌
+            if (tokenCount < maxTokens) {
+                redisTemplate.opsForValue().set(key, String.valueOf(tokenCount + 1));
+            }
+        }
+    }
+
+    public boolean tryAcquireToken(long concertId) {
+        String key = "token-bucket-" + concertId;
+        int tokenCount = redisTemplate.opsForValue().get(key) == null ? 0 : Integer.parseInt(redisTemplate.opsForValue().get(key));
+
+        // 如果没有足够的令牌，返回false
+        if (tokenCount <= 0) {
+            return false;
+        }
+
+        // 如果有足够的令牌，将令牌数量减1并更新到Redis中
+        redisTemplate.opsForValue().set(key, String.valueOf(tokenCount - 1));
+        return true;
+    }
+
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
     @Transactional(rollbackFor = Exception.class)
     public Long beforeDoConfirm(ConfirmOrderDoReq req) {
         Long id = null;
-        // 校验令牌余量
-        boolean validSkToken = redisTemplate.opsForValue().get("sk-token-" + req.getConcertId()) != null;
 
-        if (validSkToken) {
+        if (!tryAcquireToken(req.getConcertId())) {
             LOG.info("令牌校验通过");
         } else {
             LOG.info("令牌校验不通过");
 //            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
+        }
+
+        int ticketCount = req.getTicketList().size();
+        int ticketLeft = getTicketLeftFromRedis(req.getConcertId());
+        if (ticketLeft < ticketCount) {
+            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_TICKET_COUNT_ERROR);
         }
 
         // 保存确认订单表，状态初始
@@ -111,7 +159,9 @@ public class BeforeConfirmOrderService {
             try {
                 // * 执行业务逻辑: 扣减票，创建订单项，更新订单等 *
                 Concert concert = concertMapper.selectById(req.getConcertId());
-                concert.setTicketLeft(concert.getTicketLeft() - req.getTicketList().size());
+                int newTicketLeft = concert.getTicketLeft() - req.getTicketList().size();
+                redisTemplate.opsForValue().set("concert-id-" + req.getConcertId(), String.valueOf(newTicketLeft));
+                concert.setTicketLeft(newTicketLeft);
                 concertMapper.updateById(concert);
 
                 // 更新订单状态为成功
@@ -135,7 +185,14 @@ public class BeforeConfirmOrderService {
 
             } catch (Exception e) {
                 LOG.error("处理订单时出现错误：{}", e.getMessage());
+                // 更新订单状态为失败
+                order.setOrderStatus(ConfirmOrderStatusEnum.FAILURE.getCode());
+                UpdateWrapper<Order> uw = new UpdateWrapper<>();
+                uw.eq("id", order.getId());
+                confirmOrderMapper.update(order, uw);
+
                 throw new RuntimeException("处理订单时出现错误", e);
+
             } finally {
                 // 释放分布式锁
                 if (lockKey.equals(redisTemplate.opsForValue().get(lockKey))) {

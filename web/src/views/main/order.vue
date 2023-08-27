@@ -116,8 +116,7 @@
   <a-modal v-model:visible="firstImageCodeModalVisible" :closable="false" :footer="null" :title="null"
            style="top: 50px; width: 400px">
     <p style="text-align: center; font-weight: bold; font-size: 18px">
-      使用纯前端验证码削弱瞬时高峰<br/>
-      减小后端验证码接口的压力
+      请输入验证码<br/>
     </p>
     <p>
       <a-input v-model:value="firstImageCodeTarget" placeholder="验证码">
